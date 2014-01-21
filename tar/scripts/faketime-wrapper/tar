@@ -3,10 +3,22 @@
 mytar="$HOME/.local/usr/bin/tar"
 #$mytar --faketime="2013-01-01 17:01:01" "$@"
 
-if [[ ! -z $FAKETIME_TIME ]] ; then
+envarg=() # arguments to be appended to tar call based on env
+
+if [[ ! -z $FAKETIME_TIME ]] ; then envarg+=("--faketime=$FAKETIME_TIME") ; fi
+if [[ ! -z $FAKETIME_TIME_ZERO ]] ; then envarg+=("--faketime-zero") ; fi
+if [[ ! -z $FAKETIME_TIME_REFERENCE ]] ; then envarg+=("--faketime-reference=$FAKETIME_TIME_REFERENCE") ; fi
+if [[ ! -z $TAR_SORT_INPUT ]] ; then envarg+=("--sort-input") ; fi
+if [[ ! -z $TAR_OWNER ]] ; then envarg+=("--owner=$TAR_OWNER") ; fi
+if [[ ! -z $TAR_GROUP ]] ; then envarg+=("--group=$TAR_GROUP") ; fi
+if [[ ! -z $TAR_NUMERIC_OWNER ]] ; then envarg+=("--numeric-owner") ; fi
+printf -- '%s\n' "${t[@]}"
+
+if [ ${#errors[@]} -gt 0 ] ; then
 
 	if [[ -x $mytar ]] ; then
-		$mytar "$@" --faketime "$FAKETIME_TIME" --sort-input --owner root --group root  --numeric-owner
+		# tun our tar, with general arguments that we got, and then at end add all our envarg
+		mytar "$@" "${opts[@]}"
 		exit $?
 	else
 		echo "ERROR: can not find an executable tar program/script in $mytar"
@@ -16,13 +28,15 @@ if [[ ! -z $FAKETIME_TIME ]] ; then
 else
 
 	if [[ -x $mytar ]] ; then
-		$mytar "$@"
+		# still prefer our tar
+		echo "Our tar"
+		mytar "$@" 
 		exit $?
 	else
-		echo "ERROR: can not find an executable tar program/script in $mytar"
-		exit 1
+		# fall back to system's one if our is not available
+		tar "$@" 
+		exit $?
 	fi
-
 fi
 
 echo "ERROR: end of code too early ($0)"
