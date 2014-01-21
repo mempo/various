@@ -19,6 +19,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+2014-01-21  Mempo  <code@mempo.org>
+
+	* src/create.c: --faketime (-zero, -reference) --sort-input
+	* gnu/savedir.c: --sort-input works (overrides regular gnu lib)
+  * tar/src/tar.c: all options are also here
+
 2014-01-14  Rfree  <rfree@i2pmail.org>
 
 	* src/create.c: --faketime option works now (in simple cases)
