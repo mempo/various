@@ -1,0 +1,23 @@
+Uncomfortable default settings on Debian: 
+
+
+* Debian 6: if you begin any command with space, bash doesn't save this command in history. 
+For example: 
+
+$ ls  # goes in history
+$  ls # does not
+
+To save all command in history, edit $HOME/.bashrc file - comment line with HISTIGNORE    
+
+Debian 7 hasn't this "bug" but if you update Squeeze to Wheezy with existing home, this "bug" will be too. 
+
+
+* Debian 7 with Xfce4, GNOME Terminal 3.4.1.1 
+Black background and text, not highlighted currently used tab. 
+
+
+* Debian 7 
+Power button sleeps computer without any questions 
+
+
+ 
